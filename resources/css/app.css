@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-primary: #694038;
+        --color-light-primary: #855247;
+        --color-secondary: #f1efea;
+        --color-highlight: #dec6bf;
+
+    }
+}
+
+@layer components {
+    .card {
+        @apply bg-secondary;
+    }
+}
+
+@layer utilities {
+    .line-break {
+        @apply
+            my-6
+            h-px
+            border-0
+            bg-gray-300;
+    }
+}
