@@ -26,7 +26,6 @@ export default {
         return axios.post(path, user)
             .then(response => {
                 commit('saveRequestSuccess', response.data)
-                console.log({ response })
             }).catch(exception => {
                 commit('saveRequestFailed', exception)
             })
