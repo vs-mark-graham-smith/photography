@@ -58,7 +58,7 @@ Route::name('admin.')
                 Route::post('/', 'fetchMany');
 
                 Route::get('/upsert/{user?}', 'viewUpsertUser');
-                Route::post('/upsert/{user?}', 'doUpsertUser');
+                Route::post('/upsert/{upsert_user?}', 'doUpsertUser');
             });
     });
 

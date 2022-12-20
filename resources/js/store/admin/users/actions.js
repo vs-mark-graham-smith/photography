@@ -23,9 +23,10 @@ export default {
         const path = '/admin/users/upsert' + ( user.id ? `/${user.id}` : '' )
 
         commit('saveRequest')
-        return axios.post(path, { user })
+        return axios.post(path, user)
             .then(response => {
                 commit('saveRequestSuccess', response.data)
+                console.log({ response })
             }).catch(exception => {
                 commit('saveRequestFailed', exception)
             })

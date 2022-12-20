@@ -36,6 +36,15 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::bind('upsert_user', function ($id) {
+            if (! $id) {
+                return new User();
+            }
+
+            return app(User::class)
+                ->find($id);
+        });
     }
 
     /**

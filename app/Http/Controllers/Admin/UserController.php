@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\UpsertUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -36,8 +37,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function doUpsertUser(User $user = null)
+    public function doUpsertUser(UpsertUser $request, User $user)
     {
-        dd(request()->input());
+        return $request
+            ->doUpsert($user);
     }
 }

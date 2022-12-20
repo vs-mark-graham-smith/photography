@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\RequiredIf;
+use App\Models\User;
 
 class UpsertUser extends FormRequest
 {
@@ -13,7 +15,7 @@ class UpsertUser extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return auth()->guard('admin')->check();
     }
 
     /**
@@ -24,7 +26,33 @@ class UpsertUser extends FormRequest
     public function rules()
     {
         return [
-            //
-        ];
+            'first_name' => 'required',
+            'surname' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => [
+                new RequiredIf(! $this->route()->parameter('user')),
+                'confirmed'
+            ]       
+         ];
+    }
+
+    public function doUpsert(User $user)
+    {
+        return response()
+            ->json(
+                tap($user, function ($user) {
+                    $user->fill([
+                        'first_name' => $this->input('first_name'),
+                        'surname' => $this->input('surname'),
+                        'email' => $this->input('email'),
+                    ]);
+
+                    if ($this->input('password')) {
+                        $user->password = bcrypt($this->input('password'));
+                    }
+
+                    return $user->save();
+                })->refresh()
+            );
     }
 }
